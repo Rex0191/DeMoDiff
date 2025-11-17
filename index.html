@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="Spatiotemporally Decoupled Autoregressive Diffusion Model for Text-driven Human Motion Generation.">
+  <meta name="keywords" content="Text-driven human motion generation, Autoregressive diffusion model, Spatial-temporal decoupling">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spatiotemporally Decoupled Autoregressive Diffusion Model for Text-driven Human Motion Generation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!--   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/demodiff.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://liangxuy.github.io/">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More Research
+          <!-- </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://liangxuy.github.io/actformer">
+              ActFormer
+            </a>
+            <a class="navbar-item" href="https://liangxuy.github.io/ReGenNet">
+              ReGenNet
+            </a>
+            <a class="navbar-item" href="https://liangxuy.github.io/inter-x">
+              Inter-X
+            </a>
+            <a class="navbar-item" href="https://github.com/LvXinTao/himo_dataset">
+              HIMO
+            </a>
+            <a class="navbar-item" href="https://liangxuy.github.io/InterVLA">
+              InterVLA -->
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-3 publication-title">Spatiotemporally Decoupled Autoregressive Diffusion Model for Text-driven Human Motion Generation</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                Chengqun Yang<sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://liangxuy.github.io/">Liang Xu</a><sup>1,2</sup>,</span>
+              
+              <span class="author-block">
+                Yanping Li<sup>1</sup>, Fulong Liu<sup>1</sup>, Jingnan Gao<sup>1</sup>, Weili Zeng<sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://daodaofr.github.io/">Yichao Yan</a><sup>1</sup>,
+              </span>
+
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Shanghai Jiao Tong University,</span>
+  
+              <span class="author-block"><sup>2</sup>Eastern Institute for Advanced Study.</span>
+
+            </div>
+            <div>( * denotes equal contribution. )</div>
+            <div class="is-size-3">TMM 2025 Submission</div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2203.07706.pdf"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2203.07706" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span> -->
+
+                <!-- Code Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://github.com/Szy-Young/actformer"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span> -->
+                <!-- Dataset Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://github.com/Szy-Young/actformer"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="far fa-images"></i>
+                    </span>
+                    <span>Dataset</span>
+                  </a>
+                </span> -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="./static/images/teaser.png" class="interpolation-image" alt="Interpolate start reference image." />
+        <h2 class="subtitle has-text-centered">
+          Actformer is a GAN-based Transformer framework for single-person and multi-person motion generation tasks.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              We present a GAN-based Transformer for general action-conditioned 3D human motion generation, including
+              not only single-person actions but also multi-person interactive actions.
+            </p>
+            <p>
+              Our approach consists of a powerful Action-conditioned motion TransFormer (ActFormer) under a GAN training
+              scheme, equipped with a Gaussian Process latent prior. Such a design combines the strong spatio-temporal
+              representation capacity of Transformer, superiority in generative modeling of GAN, and inherent temporal
+              correlations from the latent prior. Furthermore, ActFormer can be naturally extended to multi-person
+              motions by alternately modeling temporal correlations and human interactions with Transformer encoders.
+              To further facilitate research on multi-person motion generation, we introduce a new synthetic dataset of
+              complex multi-person combat behaviors.
+            </p>
+            <p>
+              Extensive experiments on NTU-13, NTU RGB+D 120, BABEL and the proposed combat dataset show that our method
+              can adapt to various human motion representations and achieve superior performance over the
+              state-of-the-art methods on both single-person and multi-person motion generation tasks, demonstrating a
+              promising step towards a general human motion generator.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+      <!-- Paper video. -->
+      <!--     <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+      <!--/ Paper video. -->
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Method. -->
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Method</h2>
+          <div class="content has-text-centered">
+            <img src="./static/images/network.png" class="interpolation-image"
+              alt="Interpolate start reference image." />
+          </div>
+          <div class="content has-text-justified">
+            <p>
+              Given a latent vector sequence <i>z</i> sampled from Gaussian Process (GP) prior and an action label <i>a</i>, the model can synthesize either a single-person (top stream) or a multi-person (bottom stream) motion sequence. For the multi-person motions, Actformer alternately models temporal correlations (T-Former) and human interactions (I-Former) with Transformer encoders. The model is trained under a GAN scheme.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Method. -->
+
+      <!-- GTA Combat Dataset. -->
+      <!-- <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">GTA Combat Dataset</h2>
+          <div class="content has-text-justified">
+            <p>
+              To facilitate the research on multi-person motion generation, we construct a GTA Combat dataset through
+              the <a href="https://www.rockstargames.com/V/" target="_blank">Grand Theft Auto V</a>'s gaming engine.
+              In this synthetic multi-person MoCap dataset, we collect (~7K) combat motion sequences each with 2 to 5
+              participants.
+              Here are samples from our dataset. (Note that, only the persons involved in the combat behavior are useful
+              parts from the rgb data, and the irrelevant others could be neglected.)
+            </p>
+            <p>
+              <b>Download the GTA Combat dataset from <a href="https://github.com/Szy-Young/actformer">here</a>.</b>
+            </p>
+          </div>
+          <div class="content has-text-centered">
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/2p_1.mp4" type="video/mp4">
+            </video>
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/3p_1.mp4" type="video/mp4">
+            </video>
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/4p_1.mp4" type="video/mp4">
+            </video>
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/5p_1.mp4" type="video/mp4">
+            </video>
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/2p_2.mp4" type="video/mp4">
+            </video>
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/3p_2.mp4" type="video/mp4">
+            </video>
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/4p_2.mp4" type="video/mp4">
+            </video>
+            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_rgb/5p_2.mp4" type="video/mp4">
+            </video>
+            <video width="100%" playsinline="" autoplay="" loop="" preload="" muted="">
+              <source src="./static/videos/gta_combat_skels.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div> -->
+      <!--/ GTA Combat Dataset. -->
+
+      <!-- More visualization results. -->
+      <style>
+        .visual-grid {
+          color: #363636;
+          font-weight: bold;
+        }
+
+        .visual-gird-header {
+          display: grid;
+          grid-template-columns: 100px 1fr 1fr 1fr 100px 1fr 1fr 1fr;
+          grid-template-rows: 50px;
+          justify-items: center;
+          align-items: center;
+          border-bottom: 2px solid #dbdbdb;
+        }
+
+        .visual-gird-item {
+          display: grid;
+          grid-template-columns: 100px 1fr 1fr 1fr 100px 1fr 1fr 1fr;
+          grid-template-rows: 220px;
+          justify-items: center;
+          align-items: center;
+          grid-column-gap: 10px;
+          border-bottom: 1px solid #dbdbdb;
+        }
+
+        .visual-gird-item video {
+          object-fit: contain;
+          height: 150px;
+          width: auto;
+        }
+      </style>
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">More visualization results</h2>
+          <div class="content has-text-centered">
+            <div class="visual-grid">
+              <div class="visual-gird-header">
+                <div>Action</div>
+                <div>Gen 1</div>
+                <div>Gen 2</div>
+                <div>Gen 3</div>
+                <div>Action</div>
+                <div>Gen 1</div>
+                <div>Gen 2</div>
+                <div>Gen 3</div>
+              </div>
+              <!-- 第一行 -->
+              <div class="visual-gird-item">
+                <div>Pick up</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action0_generation_0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action0_generation_1.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action0_generation_2.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>Throw</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action1_generation_0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action1_generation_1.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action1_generation_2.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+              <!-- 第二行 -->
+              <div class="visual-gird-item">
+                <div>Side kick</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action12_generation_0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action12_generation_1.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action12_generation_2.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>Wave</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action5_generation_0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video style="height:180px;margin-top:-20px" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action5_generation_1.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu13/action5_generation_2.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+              <!-- 第3行 -->
+              <div class="visual-gird-item">
+                <div>Salute</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu120/action37_generation_0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu120/action37_generation_1.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu120/action37_generation_2.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>Put the plams together</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu120/action38_generation_0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu120/action38_generation_1.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/ntu120/action38_generation_2.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+              <!-- 第4行 -->
+              <div class="visual-gird-item">
+                <div>Stretch</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/stretch/generation_0_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/stretch/generation_1_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video style="height: 160px;object-fit:cover" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/stretch/generation_2_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>Dance</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/dance/generation_0_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video style="height: 160px;object-fit: cover;" playsinline="" autoplay="" loop="" preload=""
+                    muted="">
+                    <source src="./static/videos/vis/babel/dance/generation_1_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/dance/generation_2_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+              <!-- 第5行 -->
+              <div class="visual-gird-item">
+                <div>Touch object</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/touch_object/generation_0_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video style="height: 135px" playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/touch_object/generation_1_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/touch_object/generation_2_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>Swing body part</div>
+                <div>
+                  <video playsinline="" autoplay="" loop="" preload="" muted="">
+                    <source src="./static/videos/vis/babel/swing_body_part/generation_0_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video style="height: 170px;object-fit: cover;" playsinline="" autoplay="" loop="" preload=""
+                    muted="">
+                    <source src="./static/videos/vis/babel/swing_body_part/generation_1_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <video style="height: 160px;object-fit: cover;" playsinline="" autoplay="" loop="" preload=""
+                    muted="">
+                    <source src="./static/videos/vis/babel/swing_body_part/generation_2_trans.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+<!--           <div class="content has-text-justified">
+            <p>
+              TODO.
+            </p>
+          </div> -->
+        </div>
+      </div>
+      <!--/ More visualization results. -->
+
+    </div>
+  </section>
+
+
+  <!-- <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{xu2023actformer,
+      author    = {Xu, Liang and Song, Ziyang and Wang, Dongliang and Su, Jing and Fang, Zhicheng and Ding, Chenjing and Gan, Weihao and Yan, Yichao and Jin, Xin and Yang, Xiaokang and Zeng, Wenjun and Wu, Wei},
+      title     = {ActFormer: A GAN-based Transformer towards General Action-Conditioned 3D Human Motion Generation},
+      journal   = {ICCV},
+      year      = {2023},
+    }</code></pre>
+    </div>
+  </section> -->
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              Thanks for the template from <a href="https://github.com/nerfies/nerfies.github.io"> Nerfies</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
