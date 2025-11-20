@@ -42,7 +42,7 @@
 
 <body>
 
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
@@ -83,7 +83,7 @@
       </div>
 
     </div>
-  </nav>
+  </nav> -->
 
 
   <section class="hero">
@@ -91,29 +91,34 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-3 publication-title">Spatiotemporally Decoupled Autoregressive Diffusion Model for Text-driven Human Motion Generation</h1>
+            <h1 class="title is-2 publication-title">Spatiotemporally Decoupled Autoregressive Diffusion Model for Text-driven Human Motion Generation</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
-                Chengqun Yang<sup>1</sup>,</span>
+                Chengqun Yang,</span>
               <span class="author-block">
-                <a href="https://liangxuy.github.io/">Liang Xu</a><sup>1,2</sup>,</span>
+                <a href="https://liangxuy.github.io/">Liang Xu</a>,</span>
               
               <span class="author-block">
-                Yanping Li<sup>1</sup>, Fulong Liu<sup>1</sup>, Jingnan Gao<sup>1</sup>, Weili Zeng<sup>1</sup>,</span>
+                Yanping Li, Fulong Liu,</span>
               <span class="author-block">
-                <a href="https://daodaofr.github.io/">Yichao Yan</a><sup>1</sup>,
+                <a href="https://g-1nonly.github.io/">Jingnan Gao</a>,</span>
+              </span>
+              <span class="author-block">
+                Weili Zeng,</span>
+              <span class="author-block">
+                <a href="https://daodaofr.github.io/">Yichao Yan*</a>,
               </span>
 
             </div>
 
             <div class="is-size-5 publication-authors">
-              <span class="author-block"><sup>1</sup>Shanghai Jiao Tong University,</span>
+              <span class="author-block">MoE Key Lab of Artificial Intelligence, AI Institute, Shanghai Jiao Tong University.</span>
   
-              <span class="author-block"><sup>2</sup>Eastern Institute for Advanced Study.</span>
+              
 
             </div>
-            <div>( * denotes equal contribution. )</div>
-            <div class="is-size-3">TMM 2025 Submission</div>
+            <div>( * denotes Corresponding author. )</div>
+            <!-- <div class="is-size-3">TMM 2025 Submission</div> -->
 
             <div class="column has-text-centered">
               <div class="publication-links">
@@ -170,7 +175,7 @@
       <div class="hero-body">
         <img src="./static/images/teaser.png" class="interpolation-image" alt="Interpolate start reference image." />
         <h2 class="subtitle has-text-centered">
-          Actformer is a GAN-based Transformer framework for single-person and multi-person motion generation tasks.
+          DeMoDiff is composed of spatial-temporal VAE and spatial-temporal autoregressive diffusion model for enhanced motion representation, generation, and editing capabilities.
         </h2>
       </div>
     </div>
@@ -184,23 +189,22 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              We present a GAN-based Transformer for general action-conditioned 3D human motion generation, including
-              not only single-person actions but also multi-person interactive actions.
+              Text-driven 3D human motion synthesis has made substantial development with two core modules of motion representation and generative architecture. 
+              For representation, Vector Quantization (VQ)-based methods compress motion data into discrete tokens while latent-based models operate directly in continuous space.
+              However, both of these representations exhibit significant limitations.
+              VQ-based methods suffer from inherent information loss, which compromises the quality, diversity, and generalization of generated motions, while continuous representation on holistic whole-body motion hinders part-level flexibility.
+              For architecture, diffusion and autoregressive diffusion models have demonstrated their superiority, yet the fine-grained controllability over individual body parts is also limited.
             </p>
             <p>
-              Our approach consists of a powerful Action-conditioned motion TransFormer (ActFormer) under a GAN training
-              scheme, equipped with a Gaussian Process latent prior. Such a design combines the strong spatio-temporal
-              representation capacity of Transformer, superiority in generative modeling of GAN, and inherent temporal
-              correlations from the latent prior. Furthermore, ActFormer can be naturally extended to multi-person
-              motions by alternately modeling temporal correlations and human interactions with Transformer encoders.
-              To further facilitate research on multi-person motion generation, we introduce a new synthetic dataset of
-              complex multi-person combat behaviors.
+              To overcome the aforementioned challenges, we propose a unified spatiotemporally decoupled framework comprising two core components for representation and architecture. 
+              First, we propose a lightweight spatial-temporal VAE, which compresses each body joint rather than the whole-body motion into latent spaces. 
+              The decoupled paradigm significantly enhances representation extraction capabilities and offers greater joint-level controllability.
+              Next, we incorporate spatial-temporal masking and attention mechanisms into autoregressive diffusion models as the generation architecture.
             </p>
             <p>
-              Extensive experiments on NTU-13, NTU RGB+D 120, BABEL and the proposed combat dataset show that our method
-              can adapt to various human motion representations and achieve superior performance over the
-              state-of-the-art methods on both single-person and multi-person motion generation tasks, demonstrating a
-              promising step towards a general human motion generator.
+              Extensive experiments on the HumanML3D and KIT-ML datasets demonstrate that our model achieves state-of-the-art reconstruction performance and compelling motion generation results.
+              We also demonstrate the superior capability of our model for spatial-level motion editing.
+
             </p>
           </div>
         </div>
@@ -234,300 +238,170 @@
           </div>
           <div class="content has-text-justified">
             <p>
-              Given a latent vector sequence <i>z</i> sampled from Gaussian Process (GP) prior and an action label <i>a</i>, the model can synthesize either a single-person (top stream) or a multi-person (bottom stream) motion sequence. For the multi-person motions, Actformer alternately models temporal correlations (T-Former) and human interactions (I-Former) with Transformer encoders. The model is trained under a GAN scheme.
+              (A) Spatial-Temporal VAE encodes motion into 2D latent and decodes it for reconstruction. (B) Spatial-Temporal Autoregressive Diffusion includes Spatial-Temporal Attention, Spatial Attention and Temporal Attention and is trained via mask modeling, using a diffusion head to predict motion latent. (C) During inference, all latent starts as masked latent. Spatial-Temporal Autoregressive Diffusion predicts the conditional latent, and then the diffusion head generates the predict latent.
             </p>
           </div>
         </div>
       </div>
-      <!--/ Method. -->
 
-      <!-- GTA Combat Dataset. -->
-      <!-- <div class="columns is-centered">
-        <div class="column is-full-width">
-          <h2 class="title is-3 has-text-centered">GTA Combat Dataset</h2>
-          <div class="content has-text-justified">
-            <p>
-              To facilitate the research on multi-person motion generation, we construct a GTA Combat dataset through
-              the <a href="https://www.rockstargames.com/V/" target="_blank">Grand Theft Auto V</a>'s gaming engine.
-              In this synthetic multi-person MoCap dataset, we collect (~7K) combat motion sequences each with 2 to 5
-              participants.
-              Here are samples from our dataset. (Note that, only the persons involved in the combat behavior are useful
-              parts from the rgb data, and the irrelevant others could be neglected.)
-            </p>
-            <p>
-              <b>Download the GTA Combat dataset from <a href="https://github.com/Szy-Young/actformer">here</a>.</b>
-            </p>
-          </div>
-          <div class="content has-text-centered">
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/2p_1.mp4" type="video/mp4">
-            </video>
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/3p_1.mp4" type="video/mp4">
-            </video>
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/4p_1.mp4" type="video/mp4">
-            </video>
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/5p_1.mp4" type="video/mp4">
-            </video>
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/2p_2.mp4" type="video/mp4">
-            </video>
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/3p_2.mp4" type="video/mp4">
-            </video>
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/4p_2.mp4" type="video/mp4">
-            </video>
-            <video width="24%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_rgb/5p_2.mp4" type="video/mp4">
-            </video>
-            <video width="100%" playsinline="" autoplay="" loop="" preload="" muted="">
-              <source src="./static/videos/gta_combat_skels.mp4" type="video/mp4">
-            </video>
-          </div>
-        </div>
-      </div> -->
-      <!--/ GTA Combat Dataset. -->
 
       <!-- More visualization results. -->
       <style>
+        
         .visual-grid {
-          color: #363636;
-          font-weight: bold;
+          display: grid !important;
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 24px !important;
+          width: 100%;
+          margin-top: 2rem;
         }
-
-        .visual-gird-header {
-          display: grid;
-          grid-template-columns: 100px 1fr 1fr 1fr 100px 1fr 1fr 1fr;
-          grid-template-rows: 50px;
-          justify-items: center;
-          align-items: center;
-          border-bottom: 2px solid #dbdbdb;
+      
+        .visual-card {
+          background: #fafafa;
+          border-radius: 8px;
+          padding: 16px;
+          box-shadow: 0 2px 4px rgba(10, 10, 10, 0.06);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
         }
-
-        .visual-gird-item {
-          display: grid;
-          grid-template-columns: 100px 1fr 1fr 1fr 100px 1fr 1fr 1fr;
-          grid-template-rows: 220px;
-          justify-items: center;
-          align-items: center;
-          grid-column-gap: 10px;
-          border-bottom: 1px solid #dbdbdb;
-        }
-
-        .visual-gird-item video {
+      
+        .visual-card video {
+          width: 100%;
+          height: 180px;
           object-fit: contain;
-          height: 150px;
-          width: auto;
+          background: #ffffff;
+          border-radius: 6px;
+        }
+      
+        .visual-card-title {
+          margin-top: 12px;
+          font-weight: 600;
+          font-size: 0.95rem;
+        }
+      
+        .visual-card-text {
+          margin-top: 6px;
+          font-size: 0.95rem;
+          line-height: 0.85;
+          color: #4b5563;
+        }
+      
+        /* 移动端自动变回单列 */
+        @media (max-width: 768px) {
+          .visual-grid {
+            grid-template-columns: 1fr !important;
+          }
         }
       </style>
+      
       <div class="columns is-centered">
         <div class="column is-full-width">
-          <h2 class="title is-3 has-text-centered">More visualization results</h2>
-          <div class="content has-text-centered">
-            <div class="visual-grid">
-              <div class="visual-gird-header">
-                <div>Action</div>
-                <div>Gen 1</div>
-                <div>Gen 2</div>
-                <div>Gen 3</div>
-                <div>Action</div>
-                <div>Gen 1</div>
-                <div>Gen 2</div>
-                <div>Gen 3</div>
+          <h2 class="title is-3 has-text-centered">Visualization results</h2>
+      
+          <div class="visual-grid">
+            <!-- 卡片 1 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/18_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Pick up an object from the ground</div> -->
+              <div class="visual-card-text">
+                A person walks turning to the left.
               </div>
-              <!-- 第一行 -->
-              <div class="visual-gird-item">
-                <div>Pick up</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action0_generation_0.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action0_generation_1.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action0_generation_2.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>Throw</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action1_generation_0.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action1_generation_1.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action1_generation_2.mp4" type="video/mp4">
-                  </video>
-                </div>
+            </div>
+      
+            <!-- 卡片 2 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/14_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Throw with dominant hand</div> -->
+              <div class="visual-card-text">
+                A person slowly walks forward.
               </div>
-              <!-- 第二行 -->
-              <div class="visual-gird-item">
-                <div>Side kick</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action12_generation_0.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action12_generation_1.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action12_generation_2.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>Wave</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action5_generation_0.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video style="height:180px;margin-top:-20px" playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action5_generation_1.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu13/action5_generation_2.mp4" type="video/mp4">
-                  </video>
-                </div>
+            </div>
+      
+            <!-- 卡片 3 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/15_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Side kick with balance adjustment</div> -->
+              <div class="visual-card-text">
+                The man takes backwards.
               </div>
-              <!-- 第3行 -->
-              <div class="visual-gird-item">
-                <div>Salute</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu120/action37_generation_0.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu120/action37_generation_1.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu120/action37_generation_2.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>Put the plams together</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu120/action38_generation_0.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu120/action38_generation_1.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/ntu120/action38_generation_2.mp4" type="video/mp4">
-                  </video>
-                </div>
+            </div>
+      
+            <!-- 卡片 4 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/16_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Wave hand repeatedly</div> -->
+              <div class="visual-card-text">
+                A person waves both arms above head.
               </div>
-              <!-- 第4行 -->
-              <div class="visual-gird-item">
-                <div>Stretch</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/stretch/generation_0_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/stretch/generation_1_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video style="height: 160px;object-fit:cover" playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/stretch/generation_2_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>Dance</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/dance/generation_0_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video style="height: 160px;object-fit: cover;" playsinline="" autoplay="" loop="" preload=""
-                    muted="">
-                    <source src="./static/videos/vis/babel/dance/generation_1_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/dance/generation_2_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
+            </div>
+      
+            <!-- 卡片 5 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/25_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Salute with upper-body alignment</div> -->
+              <div class="visual-card-text">
+                The person steps forward and uses the left leg to kick something forward.
               </div>
-              <!-- 第5行 -->
-              <div class="visual-gird-item">
-                <div>Touch object</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/touch_object/generation_0_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video style="height: 135px" playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/touch_object/generation_1_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/touch_object/generation_2_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>Swing body part</div>
-                <div>
-                  <video playsinline="" autoplay="" loop="" preload="" muted="">
-                    <source src="./static/videos/vis/babel/swing_body_part/generation_0_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video style="height: 170px;object-fit: cover;" playsinline="" autoplay="" loop="" preload=""
-                    muted="">
-                    <source src="./static/videos/vis/babel/swing_body_part/generation_1_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
-                <div>
-                  <video style="height: 160px;object-fit: cover;" playsinline="" autoplay="" loop="" preload=""
-                    muted="">
-                    <source src="./static/videos/vis/babel/swing_body_part/generation_2_trans.mp4" type="video/mp4">
-                  </video>
-                </div>
+            </div>
+      
+            <!-- 卡片 6 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/19_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Full-body stretching</div> -->
+              <div class="visual-card-text">
+                A man uses his left hand to throw something with force.
+              </div>
+            </div>
+      
+            <!-- 卡片 7 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/28_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Rhythmic dance movement</div> -->
+              <div class="visual-card-text">
+                A person walks forward and raises their arms in victory.
+              </div>
+            </div>
+      
+            <!-- 卡片 8 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/17_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Touch an object on the side</div> -->
+              <div class="visual-card-text">
+                A person steps to the left sideways.
+              </div>
+            </div>
+      
+            <!-- 卡片 9 -->
+            <div class="visual-card">
+              <video playsinline autoplay loop preload muted>
+                <source src="./static/videos/21_demo.mp4" type="video/mp4">
+              </video>
+              <!-- <div class="visual-card-title">Swing a single body part</div> -->
+              <div class="visual-card-text">
+                A person is walking on a circle.
               </div>
             </div>
           </div>
-<!--           <div class="content has-text-justified">
-            <p>
-              TODO.
-            </p>
-          </div> -->
         </div>
       </div>
-      <!--/ More visualization results. -->
-
-    </div>
+      
   </section>
 
 
