@@ -189,21 +189,22 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              Text-driven 3D human motion synthesis has made substantial development with two core modules of motion representation and generative architecture. 
+              Text-driven human motion synthesis has made substantial development with two core modules of motion representation and generative architecture. 
               For representation, Vector Quantization (VQ)-based methods compress motion data into discrete tokens while latent-based models operate directly in continuous space.
               However, both of these representations exhibit significant limitations.
               VQ-based methods suffer from inherent information loss, which compromises the quality, diversity, and generalization of generated motions, while continuous representation on holistic whole-body motion hinders part-level flexibility.
               For architecture, diffusion and autoregressive diffusion models have demonstrated their superiority, yet the fine-grained controllability over individual body parts is also limited.
             </p>
             <p>
-              To overcome the aforementioned challenges, we propose a unified spatiotemporally decoupled framework comprising two core components for representation and architecture. 
-              First, we propose a lightweight spatial-temporal VAE, which compresses each body joint rather than the whole-body motion into latent spaces. 
-              The decoupled paradigm significantly enhances representation extraction capabilities and offers greater joint-level controllability.
-              Next, we incorporate spatial-temporal masking and attention mechanisms into autoregressive diffusion models as the generation architecture.
+              To overcome the aforementioned issues, we propose a unified spatiotemporally decoupled framework named DeMoDiff, which jointly redesigns representation and architecture.
+              First, we propose a lightweight spatial-temporal VAE that encodes each body joint rather than compressing the whole-body motion into a single latent space.
+              The decoupled paradigm substantially enhances representation extraction capabilities and offers greater part-level controllability.
+              Second, we incorporate spatial-temporal masking and attention mechanisms into an autoregressive diffusion generator, achieving both generative capability and controllable editability.
+
             </p>
             <p>
               Extensive experiments on the HumanML3D and KIT-ML datasets demonstrate that our model achieves state-of-the-art reconstruction performance and compelling motion generation results.
-              We also demonstrate the superior capability of our model for spatial-level motion editing.
+              Moreover, our framework demonstrates strong temporal and spatial editing capabilities, further validating its effectiveness.
 
             </p>
           </div>
