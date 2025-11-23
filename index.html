@@ -239,7 +239,7 @@
           </div>
           <div class="content has-text-justified">
             <p>
-              (A) Spatial-Temporal VAE encodes motion into 2D latent and decodes it for reconstruction. (B) Spatial-Temporal Autoregressive Diffusion includes Spatial-Temporal Attention, Spatial Attention and Temporal Attention and is trained via mask modeling, using a diffusion head to predict motion latent. (C) During inference, all latent starts as masked latent. Spatial-Temporal Autoregressive Diffusion predicts the conditional latent, and then the diffusion head generates the predict latent.
+              (A) Spatial-Temporal VAE encodes motion into 2D latent and decodes it for reconstruction. (B) Spatial-Temporal Autoregressive Diffusion includes Spatial-Temporal Attention, Spatial Attention and Temporal Attention and is trained via mask modeling, using a diffusion head to predict motion latent. (C) During inference, Spatial-Temporal Autoregressive Diffusion iteratively predicts the latent representations, which are subsequently decoded into the corresponding motion sequence.
             </p>
           </div>
         </div>
